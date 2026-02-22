@@ -12,8 +12,7 @@ public:
   int getMin();
 
 private:
-  class Node {
-  public:
+  struct Node {
     int value;
     int height;
     Node* left;

@@ -13,7 +13,7 @@ AVL_tree::AVL_tree() {
 }
 
 AVL_tree::~AVL_tree() {
-  while (root_ == nullptr) {
+  while (root_ != nullptr) {
     remove(root_->value);
   }
 }
