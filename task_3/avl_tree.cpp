@@ -1,20 +1,11 @@
 #include <iostream>
 #include "avl_tree.h"
 
-AVL_tree::Node::Node(int v) {
-  value = v;
-  height = 0;
-  left = nullptr;
-  right = nullptr;
-};
+AVL_tree::Node::Node(int v) : value(v), height(0), left(nullptr), right(nullptr) {};
 
-AVL_tree::AVL_tree() {
-  root_ = nullptr;
-};
+AVL_tree::AVL_tree() : root_(nullptr) {};
 
-AVL_tree::AVL_tree(const AVL_tree& other) {
-  root_ = copyTree_(other.root_);
-};
+AVL_tree::AVL_tree(const AVL_tree& other) : root_(copyTree_(other.root_)) {};
 
 AVL_tree& AVL_tree::operator=(const AVL_tree& other) {
   root_ = copyTree_(other.root_);
