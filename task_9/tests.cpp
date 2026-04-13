@@ -81,7 +81,8 @@ void test4() {
   tree.insert(5);
   tree.insert(6);
 
-  AVL_tree tree2 = tree;
+  AVL_tree tree2 = AVL_tree<int>();
+  tree2 = tree;
 
   tree.remove(4);
   tree.remove(3);
@@ -138,7 +139,8 @@ void test7() {
   tree.insert(5);
   tree.insert(6);
 
-  AVL_tree tree2 = std::move(tree);
+  AVL_tree tree2 = AVL_tree<int>();
+  tree2 = std::move(tree);
 
   assert(tree2.find(4));
   tree2.remove(4);
