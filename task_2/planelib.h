@@ -1,6 +1,8 @@
 #ifndef PLANELIB
 #define PLANELIB
 
+#include <optional>
+
 #define EPSILON 1e-8
 
 class Point;
@@ -29,19 +31,44 @@ public:
 };
 
 class Line {
+private:
+  Line(Point a, Vector2D v) : point(a), dir(v) {};
+  Line(double ax, double b) : point(0, b), dir(ax, ax + b) {};
+  Line(Point a, Point b) : point(a), dir(b.x - a.x, b.y - a.y) {};
+
 public:
   const Point point;
   const Vector2D dir;
+  
+  static std::optional<Line> createLine(const Point& a, const Vector2D v) {
+    if (std::abs(v.x) < EPSILON && std::abs(v.y) < EPSILON) {
+      return std::nullopt;
+    } else {
+      return Line{a, v};
+    }
+  };
 
-  Line(double ax, double b) : point(0, b), dir(ax, ax + b) {};
-  Line(Point a, Point b) : point(a), dir(b.x - a.x, b.y - a.y) {};
-  Line(Point a, Vector2D v) : point(a), dir(v) {};
+  static std::optional<Line> createLine(double ax, double b) {
+    if (std::abs(ax) < EPSILON && std::abs(b) < EPSILON) {
+      return std::nullopt;
+    } else {
+      return Line{ax, b};
+    }
+  };
+  
+  static std::optional<Line> createLine(const Point& a, const Point& b) {
+    if (std::abs(a.x - b.x) < EPSILON && std::abs(a.y - b.y) < EPSILON) {
+      return std::nullopt;
+    } else {
+      return Line{a, b};
+    }
+  };
 };
 
 bool eq(double a, double b);
 bool peq(Point a, Point b);
 
-Point intersection(Line l1, Line l2);
-Line perp(Line l, Point p);
+std::optional<Point> intersection(Line l1, Line l2);
+std::optional<Line> perp(Line l, Point p);
 
 #endif

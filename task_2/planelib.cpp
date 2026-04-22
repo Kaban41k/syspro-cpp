@@ -21,16 +21,20 @@ bool Vector2D::operator==(const Vector2D& other) const {
 bool eq(double a, double b) {return a - EPSILON < b && b < a + EPSILON;}
 bool peq(Point a, Point b) {return eq(a.x, b.x) && eq(a.y, b.y);}
 
-Point intersection(Line l1, Line l2) {
+std::optional<Point> intersection(Line l1, Line l2) {
+  double d = l1.dir.x * l2.dir.y - l1.dir.y * l2.dir.x;
+
+  if (d == 0) {
+    return std::nullopt;
+  }
+
   double t = ((l2.point.x - l1.point.x) * l2.dir.y - 
               (l2.point.y - l1.point.y) * l2.dir.x) /
-              (l1.dir.x * l2.dir.y - l1.dir.y * l2.dir.x);
-  //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  //                      I trust my user <3
+              d;
 
   return l1.point + l1.dir * t;
 }
 
-Line perp(Line l, Point p) {
-  return Line(p, Vector2D(-l.dir.y, l.dir.x));
+std::optional<Line> perp(Line l, Point p) {
+  return Line::createLine(p, Vector2D(-l.dir.y, l.dir.x));
 }
